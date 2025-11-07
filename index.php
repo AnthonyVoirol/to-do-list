@@ -33,7 +33,6 @@ function message()
     </header>
 
     <main>
-        <a href="assets/php/signIn.php">test</a>
         <section id="main">
             <!-- tâche -->
         </section>

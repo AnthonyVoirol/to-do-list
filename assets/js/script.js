@@ -1,5 +1,7 @@
+let tasks = [];
+
 async function init() {
-  const tasks = await recupTasks();
+  tasks = await recupTasks();
   if (tasks) {
     showTask(tasks);
   }
@@ -27,14 +29,14 @@ async function recupTasks() {
 
     if (data.error) {
       console.error("Erreur côté serveur:", data.error);
-      return null;
+      return [];
     } else {
       console.log("Tâches récupérées:", data.tasks);
       return data.tasks;
     }
   } catch (error) {
     console.error("Erreur lors de la récupération:", error);
-    return null;
+    return [];
   }
 }
 
@@ -44,12 +46,26 @@ function showTask(tasks) {
 
   tasks.forEach((task) => {
     const article = document.createElement("article");
-    article.innerText = `${task.id} : ${task.task} - ${task.description}`;
+    article.innerText = `${task.task} - ${task.description} - à faire jusqu'au ${task.deadLine} - ${task.importance}`;
+
+    const status = document.createElement("input");
+    status.type = "checkbox";
+    status.checked = task.isDone;
+
+    const editBtn = document.createElement("button");
+    editBtn.innerText = "⁝";
+    editBtn.addEventListener("click", function () {
+      showEditTask(task, article);
+    });
+
+    article.appendChild(status);
+    article.appendChild(editBtn);
     main.appendChild(article);
   });
+
 }
 
-function addTask() {
+async function addTask() {
   const main = document.getElementById("main");
   const form = document.createElement("section");
   form.classList.add("formAdd");
@@ -59,25 +75,54 @@ function addTask() {
 
   addDisplay.innerHTML = `
     <form class="add">
-      <label for="nameaAd">Nom</label>
-      <input type="text" id="nameadd">
+      <label for="nameAdd">Nom</label>
+      <input type="text" id="nameAdd" required>
+
+      <select name="importance" id="importance">
+        <option value="important">important</option>
+        <option value="normal">normal</option>
+        <option value="peu_important">peu important</option>
+      </select>
 
       <label for="descriptionAdd">Description</label>
-      <textarea id="descriptionAdd"></textarea>
+      <textarea id="descriptionAdd" required></textarea>
 
-      <label for="nbPeopleadd">Nombre de personnes</label>
-      <input type="number" id="nbPeopleadd" min="0">
-
-      <label for="preparationAdd">Préparation</label>
-      <textarea id="preparationAdd"></textarea>
+      <label for="deadLine">À faire jusqu'à</label>
+      <input type="date" id="deadLine" required>
     </form>
   `;
 
   let addBtn = document.createElement("article");
   addBtn.classList.add("addBtn");
 
-  let updateButton = document.createElement("button");
-  updateButton.innerText = "add";
+  let addButton = document.createElement("button");
+  addButton.innerText = "Ajouter la tâche";
+
+  addButton.addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById('nameAdd').value;
+    const importance = document.getElementById('importance').value;
+    const description = document.getElementById('descriptionAdd').value;
+    const deadLine = document.getElementById('deadLine').value;
+
+    const taskData = {
+      task: name,
+      importance,
+      description,
+      deadLine
+    };
+
+    const result = await sendTaskData(taskData);
+
+    if (result.success) {
+      tasks = await recupTasks();
+      showTask(tasks);
+      form.remove();
+    } else {
+      showNotification("Erreur lors de l'ajout de la tâche.");
+    }
+  });
 
   let exitButton = document.createElement("button");
   exitButton.innerText = "Exit";
@@ -85,13 +130,70 @@ function addTask() {
     form.remove();
   });
 
-  addBtn.appendChild(updateButton);
+  addBtn.appendChild(addButton);
   addBtn.appendChild(exitButton);
-
   addDisplay.appendChild(addBtn);
   form.appendChild(addDisplay);
   main.appendChild(form);
 }
+
+async function sendTaskData(taskData) {
+  try {
+    const response = await fetch("assets/php/API.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(taskData),
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur HTTP: " + response.status);
+    }
+
+    const data = await response.json();
+
+    if (data.error) {
+      console.error("Erreur côté serveur:", data.error);
+      return { success: false };
+    } else {
+      console.log("Tâche ajoutée avec succès:", data);
+      return { success: true };
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'envoi des données:", error);
+    return { success: false };
+  }
+}
+
+function showEditTask(task, article) {
+  article.innerHTML = "";
+
+  const taskInput = document.createElement("input");
+  taskInput.value = task.task;
+
+  const descInput = document.createElement("textarea");
+  descInput.value = task.description;
+
+  const deadLineInput = document.createElement("input");
+  deadLineInput.type = "date";
+  deadLineInput.value = task.deadLine;
+
+  const importanceSelect = document.createElement("select");
+
+  article.appendChild(taskInput);
+  article.appendChild(descInput);
+  article.appendChild(deadLineInput);
+  article.appendChild(importanceSelect);
+}
+
+
+
+
+
+
+
 
 function showNotification(message) {
   const existing = document.getElementById("notification");
