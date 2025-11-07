@@ -191,6 +191,14 @@ function showEditTask(task, article) {
     importanceSelect.appendChild(option);
   }
 
+  const updateBtn = document.createElement("button");
+  updateBtn.innerText = "Mettre à jour";
+  updateBtn.addEventListener("click", async function () {
+
+
+}
+);
+
   article.appendChild(taskInput);
   article.appendChild(descInput);
   article.appendChild(deadLineInput);
