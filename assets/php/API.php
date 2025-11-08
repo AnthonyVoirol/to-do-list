@@ -12,7 +12,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Vérification de la méthode HTTP pour déterminer l'action à effectuer
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
