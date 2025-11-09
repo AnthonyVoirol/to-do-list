@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
   <section class="sectionLogin">
-    <form class="formLogin" action="signin.php" method="POST">
+    <form class="formLogin" action="signIn.php" method="POST">
       <h1>Welcome Back</h1>
       <article class="input">
         <input type="email" name="email" placeholder="Email" required />

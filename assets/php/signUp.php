@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
   <section class="sectionLogin">
-    <form class="formLogin" action="signup.php" method="POST">
+    <form class="formLogin" action="signUp.php" method="POST">
       <h1>Welcome</h1>
       <?php if (isset($message)): ?>
         <p style="color: red;"><?= htmlspecialchars($message) ?></p>
