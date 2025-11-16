@@ -169,10 +169,6 @@ article input[type="checkbox"]:checked::after {
   white-space: nowrap;
 }
 
-.task-deadline::before {
-  content: "📅";
-}
-
 article button {
   width: 36px;
   height: 36px;
