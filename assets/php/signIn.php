@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($message === 'Login successful.') {
     $_SESSION['flash_message'] = 'Login successful!';
-    header('Location: ../../index.php');
+    header('Location: ../../');
     exit;
   }
 }

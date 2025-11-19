@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($message === 'Registration successful.') {
     $_SESSION['flash_message'] = 'Registration successful!';
-    header('Location: ../../index.php');
+    header('Location: ../../');
     exit;
   }
 }
