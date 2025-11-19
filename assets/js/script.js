@@ -1,10 +1,9 @@
 let tasks = [];
 
 async function init() {
-  const main = document.getElementById("main");
   tasks = await recupTasks();
   if (tasks) {
-    showTask(tasks,main);
+    showTask(tasks);
   }
 
   const btnAdd = document.getElementById("addTask");
@@ -42,7 +41,8 @@ async function recupTasks() {
   }
 }
 
-function showTask(tasks, main) {
+function showTask(tasks) {
+  const main = document.getElementById("main");
   main.innerHTML = "";
 
   tasks.forEach((task) => {
