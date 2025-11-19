@@ -1,11 +1,15 @@
-function OpenSettingAccount(main) {
-  const avatar = document.getElementById("avatar");
+function OpenSettingAccount() {
+  document.getElementById("avatar").addEventListener("click", () => {
+    const menu = document.getElementById("profileMenu");
+    menu.classList.toggle("show");
+  });
 
-  avatar.addEventListener("click", function(){
-    console.log("Ca marche");
-    const p = document.createElement("p");
-    p.textContent = "test";
+  document.addEventListener("click", (e) => {
+    const avatar = document.getElementById("avatar");
+    const menu = document.getElementById("profileMenu");
 
-    main.appendChild(p);
-  })
+    if (!avatar.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove("show");
+    }
+  });
 }

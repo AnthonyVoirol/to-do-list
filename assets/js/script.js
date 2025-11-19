@@ -12,7 +12,7 @@ async function init() {
     addTask();
   });
 
-  OpenSettingAccount(main);
+  OpenSettingAccount();
 }
 
 init();

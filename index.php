@@ -36,7 +36,17 @@ function message()
 <body>
     <header>
         <h1>To-Do-List</h1>
-        <img class="avatar" id="avatar" src="<?php echo $_SESSION['avatar']; ?>" alt="avatar">
+
+        <div class="profile-container">
+            <img class="avatar" id="avatar" src="<?php echo 'assets/avatars/' . $_SESSION['avatar'] . '.png'; ?>" alt="avatar">
+            <div class="profile-menu" id="profileMenu">
+                <ul>
+                    <li><a href="assets/php/account.php">Mon compte</a></li>
+                    <li><a href="assets/php/settings.php">Paramètres</a></li>
+                    <li><a href="assets/php/logout.php">Déconnexion</a></li>
+                </ul>
+            </div>
+        </div>
     </header>
 
     <main>

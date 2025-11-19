@@ -25,6 +25,8 @@ header {
 }
 
 header h1 {
+  display: flex;
+  align-items: center;
   font-size: 1.6rem;
   font-weight: 700;
   color: #0f172a;
@@ -483,6 +485,78 @@ article select:focus {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+}
+
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  object-fit: cover;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
+}
+
+.profile-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 170px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 10px 0;
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: 0.25s ease;
+  z-index: 100;
+}
+
+.profile-menu.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.profile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-menu li {
+  border-bottom: 1px solid #eee;
+}
+
+.profile-menu li:last-child {
+  border-bottom: none;
+}
+
+.profile-menu a {
+  display: block;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: #333;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+.profile-menu a:hover {
+  background: #f4f4f4;
 }
 
 @media (max-width: 768px) {
