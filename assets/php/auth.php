@@ -89,7 +89,7 @@ function getUserInfo(mysqli $conn): string
         $_SESSION['avatar'] = $user['avatar_path'];
         return $user['avatar_path'];
     } else {
-        $_SESSION['avatar'] = 'assets/avatars/avatars_default.png';
+        $_SESSION['avatar'] = 'avatars_default';
         return $_SESSION['avatar'];
     }
 }
