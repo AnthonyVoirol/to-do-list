@@ -1,4 +1,5 @@
 let tasks = [];
+let sortSelect;
 
 async function init() {
   tasks = await recupTasks();
@@ -6,10 +7,19 @@ async function init() {
     showTask(tasks);
   }
 
+  sortSelect = document.getElementById("sortTasks");
+  sortSelect.addEventListener("change", () => {
+    const sortBy = sortSelect.value;
+    sortTasks(sortBy);
+    showTask(tasks);
+  });
+
   const btnAdd = document.getElementById("addTask");
   btnAdd.addEventListener("click", function () {
     addTask();
   });
+
+  OpenSettingAccount();
 }
 
 init();
@@ -31,7 +41,6 @@ async function recupTasks() {
       console.error("Erreur côté serveur:", data.error);
       return [];
     } else {
-      console.log("Tâches récupérées:", data.tasks);
       return data.tasks;
     }
   } catch (error) {
@@ -44,25 +53,99 @@ function showTask(tasks) {
   const main = document.getElementById("main");
   main.innerHTML = "";
 
+  const divDone = document.getElementById("done");
+  divDone.classList.add("taskDone");
+  divDone.innerHTML = "";
+
   tasks.forEach((task) => {
     const article = document.createElement("article");
-    article.innerText = `${task.task} - ${task.description} - à faire jusqu'au ${task.deadLine} - ${task.importance}`;
+
+    const taskContent = document.createElement("div");
+    taskContent.classList.add("task-content");
+
+    const taskHeader = document.createElement("div");
+    taskHeader.classList.add("task-header");
+
+    const taskName = document.createElement("div");
+    taskName.classList.add("task-name");
+    taskName.textContent = task.task;
+
+    const taskBadge = document.createElement("span");
+    taskBadge.classList.add("task-badge", task.importance);
+    taskBadge.textContent = task.importance.replace("_", " ");
+
+    taskHeader.appendChild(taskName);
+    taskHeader.appendChild(taskBadge);
+
+    const taskDesc = document.createElement("div");
+    taskDesc.classList.add("task-desc");
+    taskDesc.textContent = task.description;
+
+    const taskDeadline = document.createElement("div");
+    taskDeadline.classList.add("task-deadline");
+    taskDeadline.textContent = new Date(task.deadLine).toLocaleDateString(
+      "fr-FR",
+      {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }
+    );
+
+    taskContent.appendChild(taskHeader);
+    taskContent.appendChild(taskDesc);
+    taskContent.appendChild(taskDeadline);
+
+    article.appendChild(taskContent);
 
     const status = document.createElement("input");
     status.type = "checkbox";
     status.checked = task.isDone;
 
-    const editBtn = document.createElement("button");
-    editBtn.innerText = "⁝";
-    editBtn.addEventListener("click", function () {
-      showEditTask(task, article);
+    if (task.isDone) {
+      article.classList.add("isDone");
+      divDone.appendChild(article);
+    } else {
+      main.appendChild(article);
+    }
+
+    status.addEventListener("change", async () => {
+      article.classList.toggle("isDone", status.checked);
+      if (status.checked) {
+        divDone.appendChild(article);
+      } else {
+        main.appendChild(article);
+      }
+
+      try {
+        const response = await fetch("assets/php/API.php", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: task.id, isDone: status.checked }),
+          credentials: "include",
+        });
+
+        const data = await response.json();
+        if (data.error) console.error("Erreur mise à jour status:", data.error);
+      } catch (err) {
+        console.error("Erreur fetch status:", err);
+      }
     });
+
+    const editBtn = document.createElement("button");
+    editBtn.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.7279 9.57627L14.3137 8.16206L5 17.4758V18.89H6.41421L15.7279 9.57627ZM17.1421 8.16206L18.5563 6.74785L17.1421 5.33363L15.7279 6.74785L17.1421 8.16206ZM7.24264 20.89H3V16.6473L16.435 3.21231C16.8256 2.82179 17.4587 2.82179 17.8492 3.21231L20.6777 6.04074C21.0682 6.43126 21.0682 7.06443 20.6777 7.45495L7.24264 20.89Z"></path></svg>';
+    editBtn.addEventListener("click", () => showEditTask(task, article));
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"></path></svg>';
+    deleteBtn.addEventListener("click", () => deleteTask(task, article));
 
     article.appendChild(status);
     article.appendChild(editBtn);
-    main.appendChild(article);
+    article.appendChild(deleteBtn);
   });
-
 }
 
 async function addTask() {
@@ -101,22 +184,25 @@ async function addTask() {
   addButton.addEventListener("click", async function (event) {
     event.preventDefault();
 
-    const name = document.getElementById('nameAdd').value;
-    const importance = document.getElementById('importance').value;
-    const description = document.getElementById('descriptionAdd').value;
-    const deadLine = document.getElementById('deadLine').value;
+    const name = document.getElementById("nameAdd").value;
+    const importance = document.getElementById("importance").value;
+    const description = document.getElementById("descriptionAdd").value;
+    const deadLine = document.getElementById("deadLine").value;
 
     const taskData = {
       task: name,
       importance,
       description,
-      deadLine
+      deadLine,
     };
 
     const result = await sendTaskData(taskData);
+    const sortSelect = document.getElementById("sortTasks");
 
     if (result.success) {
       tasks = await recupTasks();
+      const sortBy = sortSelect.value;
+      sortTasks(sortBy);
       showTask(tasks);
       form.remove();
     } else {
@@ -158,7 +244,6 @@ async function sendTaskData(taskData) {
       console.error("Erreur côté serveur:", data.error);
       return { success: false };
     } else {
-      console.log("Tâche ajoutée avec succès:", data);
       return { success: true };
     }
   } catch (error) {
@@ -167,50 +252,217 @@ async function sendTaskData(taskData) {
   }
 }
 
-function showEditTask(task, article) {
-  article.innerHTML = "";
+function showEditTask(task) {
+  const main = document.getElementById("main");
 
-  const taskInput = document.createElement("input");
-  taskInput.value = task.task;
+  const form = document.createElement("section");
+  form.classList.add("formAdd");
 
-  const descInput = document.createElement("textarea");
-  descInput.value = task.description;
+  const editDisplay = document.createElement("article");
+  editDisplay.classList.add("addDisplay");
 
-  const deadLineInput = document.createElement("input");
-  deadLineInput.type = "date";
-  deadLineInput.value = task.deadLine;
+  editDisplay.innerHTML = `
+    <form class="add">
+      <label for="nameEdit">Nom</label>
+      <input type="text" id="nameEdit" value="${task.task}" required>
 
-  selectImportance = ["important", "normal", "peu_important"];
+      <label for="importanceEdit">Importance</label>
+      <select id="importanceEdit">
+        <option value="important">important</option>
+        <option value="normal">normal</option>
+        <option value="peu_important">peu important</option>
+      </select>
 
-  const importanceSelect = document.createElement("select");
+      <label for="descriptionEdit">Description</label>
+      <textarea id="descriptionEdit" required>${task.description}</textarea>
 
-  for (i = 0; i < selectImportance.length; i++) {
-    const option = document.createElement("option");
-    option.value = selectImportance[i];
-    option.text = selectImportance[i];
-    importanceSelect.appendChild(option);
-  }
+      <label for="deadLineEdit">À faire jusqu'à</label>
+      <input type="date" id="deadLineEdit" value="${
+        task.deadLine.split(" ")[0]
+      }" required>
+    </form>
+  `;
+
+  setTimeout(() => {
+    document.getElementById("importanceEdit").value = task.importance;
+  });
+
+  const btnContainer = document.createElement("article");
+  btnContainer.classList.add("addBtn");
 
   const updateBtn = document.createElement("button");
   updateBtn.innerText = "Mettre à jour";
-  updateBtn.addEventListener("click", async function () {
 
+  updateBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
 
+    const updatedTask = {
+      id: task.id,
+      task: document.getElementById("nameEdit").value,
+      importance: document.getElementById("importanceEdit").value,
+      description: document.getElementById("descriptionEdit").value,
+      deadLine: document.getElementById("deadLineEdit").value,
+    };
+
+    const result = await updateTaskData(updatedTask);
+
+    if (result.success) {
+      tasks = await recupTasks();
+      const sortBy = sortSelect.value;
+      sortTasks(sortBy);
+      showTask(tasks);
+      form.remove();
+      showNotification("Tâche mise à jour !");
+    } else {
+      showNotification("Erreur lors de la modification de la tâche.");
+    }
+  });
+
+  const exitBtn = document.createElement("button");
+  exitBtn.innerText = "Exit";
+
+  exitBtn.addEventListener("click", () => {
+    form.remove();
+  });
+
+  btnContainer.appendChild(updateBtn);
+  btnContainer.appendChild(exitBtn);
+
+  editDisplay.appendChild(btnContainer);
+  form.appendChild(editDisplay);
+  main.appendChild(form);
 }
-);
 
-  article.appendChild(taskInput);
-  article.appendChild(descInput);
-  article.appendChild(deadLineInput);
-  article.appendChild(importanceSelect);
+function renderTaskArticle(task, article) {
+  article.innerHTML = "";
+
+  const taskContent = document.createElement("div");
+  taskContent.classList.add("task-content");
+
+  const taskHeader = document.createElement("div");
+  taskHeader.classList.add("task-header");
+
+  const taskName = document.createElement("div");
+  taskName.classList.add("task-name");
+  taskName.textContent = task.task;
+
+  const taskBadge = document.createElement("span");
+  taskBadge.classList.add("task-badge", task.importance);
+  taskBadge.textContent = task.importance.replace("_", " ");
+
+  taskHeader.appendChild(taskName);
+  taskHeader.appendChild(taskBadge);
+
+  const taskDesc = document.createElement("div");
+  taskDesc.classList.add("task-desc");
+  taskDesc.textContent = task.description;
+
+  const taskDeadline = document.createElement("div");
+  taskDeadline.classList.add("task-deadline");
+  taskDeadline.textContent = new Date(task.deadLine).toLocaleDateString(
+    "fr-FR",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }
+  );
+
+  taskContent.appendChild(taskHeader);
+  taskContent.appendChild(taskDesc);
+  taskContent.appendChild(taskDeadline);
+
+  article.appendChild(taskContent);
+
+  const status = document.createElement("input");
+  status.type = "checkbox";
+  status.checked = task.isDone;
+  status.addEventListener("change", async () => {
+    try {
+      const response = await fetch("assets/php/API.php", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: task.id, isDone: status.checked }),
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (data.error) console.error("Erreur mise à jour status:", data.error);
+      article.classList.toggle("isDone", status.checked);
+    } catch (err) {
+      console.error("Erreur fetch status:", err);
+    }
+  });
+
+  const editBtn = document.createElement("button");
+  editBtn.innerHTML =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.7279 9.57627L14.3137 8.16206L5 17.4758V18.89H6.41421L15.7279 9.57627ZM17.1421 8.16206L18.5563 6.74785L17.1421 5.33363L15.7279 6.74785L17.1421 8.16206ZM7.24264 20.89H3V16.6473L16.435 3.21231C16.8256 2.82179 17.4587 2.82179 17.8492 3.21231L20.6777 6.04074C21.0682 6.43126 21.0682 7.06443 20.6777 7.45495L7.24264 20.89Z"></path></svg>';
+  editBtn.addEventListener("click", () => showEditTask(task, article));
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"></path></svg>';
+  deleteBtn.addEventListener("click", () => deleteTask(task, article));
+
+  article.appendChild(status);
+  article.appendChild(editBtn);
+  article.appendChild(deleteBtn);
 }
 
+async function updateTaskData(taskData) {
+  try {
+    const response = await fetch("assets/php/API.php", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(taskData),
+      credentials: "include",
+    });
 
+    const text = await response.text();
 
+    const data = JSON.parse(text);
+    if (data.error) {
+      console.error("Erreur côté serveur:", data.error);
+      return { success: false };
+    } else {
+      return { success: true };
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'envoi des données:", error);
+    return { success: false };
+  }
+}
 
+async function deleteTask(task) {
+  const taskData = { id: task.id };
+  try {
+    const response = await fetch("assets/php/API.php", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(taskData),
+      credentials: "include",
+    });
 
+    const data = await response.json();
 
+    if (data.error) {
+      console.error("Erreur côté serveur:", data.error);
+      showNotification("Erreur lors de la suppression de la tâche.");
+      return { success: false };
+    } else {
+      showNotification("Tâche supprimée !");
 
+      tasks = await recupTasks();
+      const sortBy = sortSelect.value;
+      sortTasks(sortBy);
+      showTask(tasks);
+      return { success: true };
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'envoi des données:", error);
+    showNotification("Erreur lors de la suppression de la tâche.");
+    return { success: false };
+  }
+}
 
 function showNotification(message) {
   const existing = document.getElementById("notification");
@@ -239,4 +491,24 @@ function hideNotification() {
     notification.classList.add("hide");
     setTimeout(() => notification.remove(), 400);
   }
+}
+
+function sortTasks(sortBy) {
+  const importanceOrder = { important: 1, normal: 2, peu_important: 3 };
+
+  tasks.sort((a, b) => {
+    switch (sortBy) {
+      case "importance":
+        return importanceOrder[a.importance] - importanceOrder[b.importance];
+      case "deadLine":
+        return new Date(a.deadLine) - new Date(b.deadLine);
+      case "status":
+        return b.isDone - a.isDone;
+      default:
+        if (a.isDone !== b.isDone) return b.isDone - a.isDone;
+        if (new Date(a.deadLine) !== new Date(b.deadLine))
+          return new Date(b.deadLine) - new Date(a.deadLine);
+        return importanceOrder[a.importance] - importanceOrder[b.importance];
+    }
+  });
 }

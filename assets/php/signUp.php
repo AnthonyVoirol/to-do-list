@@ -2,17 +2,24 @@
 require_once 'dbConfig.php';
 require_once 'auth.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $rememberMeCheck = isset($_POST['rememberMe']);
   $message = register_user(
     $conn,
     trim($_POST['username'] ?? ''),
     trim($_POST['email'] ?? ''),
-    $_POST['password'] ?? ''
+    $_POST['password'] ?? '',
+    $rememberMeCheck
   );
 
   if ($message === 'Registration successful.') {
     $_SESSION['flash_message'] = 'Registration successful!';
-    header('Location: ../../index.php');
+    header('Location: ../../');
     exit;
   }
 }
@@ -31,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
   <section class="sectionLogin">
-    <form class="formLogin" action="signup.php" method="POST">
+    <form class="formLogin" action="signUp.php" method="POST">
       <h1>Welcome</h1>
       <?php if (isset($message)): ?>
         <p style="color: red;"><?= htmlspecialchars($message) ?></p>
