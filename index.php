@@ -35,7 +35,6 @@ function message()
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do-List</title>
     <link rel="stylesheet" href="assets/css/style.css?v=Beta">
-
 </head>
 
 <body>
@@ -47,7 +46,6 @@ function message()
                 alt="avatar">
             <div class="profile-menu" id="profileMenu">
                 <ul>
-                    <li><a href="assets/php/account.php">Mon compte</a></li>
                     <li><a href="assets/php/settings.php">Paramètres</a></li>
                     <li><a href="assets/php/logout.php">Déconnexion</a></li>
                 </ul>

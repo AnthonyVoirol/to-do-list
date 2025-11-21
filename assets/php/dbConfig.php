@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
+/*$host = "localhost";
 $db = "todolist_dev";
 $user = "root"; 
-$pass = '';
+$pass = '';*/
 
 $conn = new mysqli($host, $user, $pass, $db);
 
