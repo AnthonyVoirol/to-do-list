@@ -29,8 +29,7 @@ $avatar = $_SESSION['avatar'] ?? "default.png";
         </section>
     </div>
     <script>
-        <?php echo  . $_SESSION['avatar'] . '.png'; ?>
-        const pathAvatar = "<?php echo 'assets/avatars/' . $avatar; ?>";
+        const pathAvatar = "<?php echo '../avatars/' . $avatar . '.png'; ?>";
     </script>
     <script src="../js/settings.js?v=Beta"></script>
 </body>
