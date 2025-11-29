@@ -157,23 +157,29 @@ async function addTask() {
   addDisplay.classList.add("addDisplay");
 
   addDisplay.innerHTML = `
-    <form class="add">
-      <label for="nameAdd">Nom</label>
-      <input type="text" id="nameAdd" required>
+  <form class="add">
+    <label for="nameAdd">Nom</label>
+    <input type="text" id="nameAdd" required>
 
-      <select name="importance" id="importance">
-        <option value="important">important</option>
-        <option value="normal">normal</option>
-        <option value="peu_important">peu important</option>
-      </select>
+    <label for="importance">Importance</label>
+    <select name="importance" id="importance">
+      <option value="important">important</option>
+      <option value="normal">normal</option>
+      <option value="peu_important">peu important</option>
+    </select>
 
-      <label for="descriptionAdd">Description</label>
-      <textarea id="descriptionAdd" required></textarea>
+    <label for="descriptionAdd">Description</label>
+    <textarea id="descriptionAdd" required></textarea>
 
-      <label for="deadLine">À faire jusqu'à</label>
-      <input type="date" id="deadLine" required>
-    </form>
-  `;
+    <label for="deadLine">À faire jusqu'à</label>
+    <input type="date" id="deadLine" required>
+
+    <label>
+      <input type="checkbox" id="isSchoolAdd">
+      Tâche scolaire
+    </label>
+  </form>
+`;
 
   let addBtn = document.createElement("article");
   addBtn.classList.add("addBtn");
@@ -188,12 +194,14 @@ async function addTask() {
     const importance = document.getElementById("importance").value;
     const description = document.getElementById("descriptionAdd").value;
     const deadLine = document.getElementById("deadLine").value;
+    const isSchool = document.getElementById("isSchoolAdd").checked ? 1 : 0;
 
     const taskData = {
       task: name,
       importance,
       description,
       deadLine,
+      isSchool,
     };
 
     const result = await sendTaskData(taskData);
@@ -262,26 +270,33 @@ function showEditTask(task) {
   editDisplay.classList.add("addDisplay");
 
   editDisplay.innerHTML = `
-    <form class="add">
-      <label for="nameEdit">Nom</label>
-      <input type="text" id="nameEdit" value="${task.task}" required>
+  <form class="add">
+    <label for="nameEdit">Nom</label>
+    <input type="text" id="nameEdit" value="${task.task}" required>
 
-      <label for="importanceEdit">Importance</label>
-      <select id="importanceEdit">
-        <option value="important">important</option>
-        <option value="normal">normal</option>
-        <option value="peu_important">peu important</option>
-      </select>
+    <label for="importanceEdit">Importance</label>
+    <select id="importanceEdit">
+      <option value="important">important</option>
+      <option value="normal">normal</option>
+      <option value="peu_important">peu important</option>
+    </select>
 
-      <label for="descriptionEdit">Description</label>
-      <textarea id="descriptionEdit" required>${task.description}</textarea>
+    <label for="descriptionEdit">Description</label>
+    <textarea id="descriptionEdit" required>${task.description}</textarea>
 
-      <label for="deadLineEdit">À faire jusqu'à</label>
-      <input type="date" id="deadLineEdit" value="${
-        task.deadLine.split(" ")[0]
-      }" required>
-    </form>
-  `;
+    <label for="deadLineEdit">À faire jusqu'à</label>
+    <input type="date" id="deadLineEdit" value="${
+      task.deadLine.split(" ")[0]
+    }" required>
+
+    <label>
+      <input type="checkbox" id="isSchoolEdit" ${
+        task.isSchool ? "checked" : ""
+      }>
+      Tâche scolaire
+    </label>
+  </form>
+`;
 
   setTimeout(() => {
     document.getElementById("importanceEdit").value = task.importance;
@@ -302,6 +317,7 @@ function showEditTask(task) {
       importance: document.getElementById("importanceEdit").value,
       description: document.getElementById("descriptionEdit").value,
       deadLine: document.getElementById("deadLineEdit").value,
+      isSchool: document.getElementById("isSchoolEdit").checked ? 1 : 0,
     };
 
     const result = await updateTaskData(updatedTask);
@@ -500,6 +516,8 @@ function sortTasks(sortBy) {
     switch (sortBy) {
       case "importance":
         return importanceOrder[a.importance] - importanceOrder[b.importance];
+      case "isSchool":
+        return b.isSchool - a.isSchool;
       default:
         return new Date(a.deadLine) - new Date(b.deadLine);
     }

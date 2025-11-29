@@ -58,6 +58,7 @@ function message()
         <select id="sortTasks">
             <option value="default">Par défaut</option>
             <option value="importance">Importance</option>
+            <option value="isSchool">École</option>
         </select>
 
         <section id="main">
@@ -72,7 +73,7 @@ function message()
     <footer>
         <p>Fait par Ant.V</p>
     </footer>
-    <script src="assets/js/script.js?v=Beta"></script>
+    <script src="assets/js/script.js?v=Beta2"></script>
     <script src="assets/js/account.js?v=Beta"></script>
     <?php message(); ?>
 </body>

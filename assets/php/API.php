@@ -16,7 +16,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
     case 'GET':
         // Récupérer toutes les tâches de l'utilisateur connecté
-        $stmt = $conn->prepare('SELECT id, task, description, importance, created_at, deadLine, isDone FROM tasks WHERE user_id = ?');
+        $stmt = $conn->prepare('SELECT id, task, description, importance, created_at, deadLine, isDone, isSchool FROM tasks WHERE user_id = ?');
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -44,9 +44,10 @@ switch ($method) {
         $description = $data['description'];
         $importance = $data['importance'];
         $deadLine = $data['deadLine'];
+        $isSchool = isset($data['isSchool']) ? (int) $data['isSchool'] : 0;
 
-        $stmt = $conn->prepare('INSERT INTO tasks (user_id, task, description, importance, deadLine, created_at, isDone) VALUES (?, ?, ?, ?, ?, NOW(), 0)');
-        $stmt->bind_param('issss', $user_id, $task, $description, $importance, $deadLine);
+        $stmt = $conn->prepare('INSERT INTO tasks (user_id, task, description, importance, deadLine, created_at, isDone, isSchool) VALUES (?, ?, ?, ?, ?, NOW(), 0, ?)');
+        $stmt->bind_param('issssi', $user_id, $task, $description, $importance, $deadLine, $isSchool);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
@@ -61,7 +62,6 @@ switch ($method) {
         break;
 
     case 'PUT':
-        //update
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (empty($data['id'])) {
@@ -99,9 +99,10 @@ switch ($method) {
         $description = $data['description'];
         $importance = $data['importance'];
         $deadLine = $data['deadLine'];
+        $isSchool = isset($data['isSchool']) ? (int) $data['isSchool'] : 0;
 
-        $stmt = $conn->prepare('UPDATE tasks SET task = ?, description = ?, importance = ?, deadLine = ? WHERE id = ? AND user_id = ?');
-        $stmt->bind_param('ssssii', $task, $description, $importance, $deadLine, $task_id, $user_id);
+        $stmt = $conn->prepare('UPDATE tasks SET task = ?, description = ?, importance = ?, deadLine = ?, isSchool = ? WHERE id = ? AND user_id = ?');
+        $stmt->bind_param('ssssiii', $task, $description, $importance, $deadLine, $isSchool, $task_id, $user_id);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
