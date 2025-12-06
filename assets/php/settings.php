@@ -44,7 +44,7 @@ $avatarTimestamp = $user['avatar_timestamp'] ?? time();
         const username = "<?php echo $username ?>"; 
         const avatarTimestamp = "<?php echo $avatarTimestamp ?>"; 
     </script>
-    <script src="../js/settings.js?v=1.4"></script>
+    <script src="../js/settings.js?v=1.5"></script>
 </body>
 
 </html>
