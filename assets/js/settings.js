@@ -41,7 +41,7 @@ function AccountDisplay(display) {
 
   const fileInput = document.createElement("input");
   fileInput.type = "file";
-  fileInput.accept = "image/png";
+  fileInput.accept = "image/*";
   fileInput.style.display = "none";
 
   img.addEventListener("click", () => {
@@ -52,8 +52,8 @@ function AccountDisplay(display) {
     const file = fileInput.files[0];
     if (!file) return;
 
-    if (file.type !== "image/png") {
-      alert("Veuillez sélectionner une image au format .png");
+    if (!file.type.startsWith("image/")) {
+      alert("Veuillez sélectionner une image valide");
       return;
     }
 
