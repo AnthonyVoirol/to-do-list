@@ -127,14 +127,18 @@ function getUserInfo(mysqli $conn)
     if (!isset($_SESSION['user_id']))
         return '';
 
-    $stmt = $conn->prepare("SELECT avatar_path FROM users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT username, avatar_path FROM users WHERE id = ?");
     $stmt->bind_param("i", $_SESSION['user_id']);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
     $stmt->close();
 
-    $_SESSION['avatar'] = $user['avatar_path'] ?? 'avatars_default';
+    if (!empty($user['avatar_path'])) {
+        $_SESSION['avatar'] = $user['avatar_path'];
+    } else {
+        $_SESSION['avatar'] = $user['username'];
+    }
 }
 
 ?>

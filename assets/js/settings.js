@@ -2,6 +2,8 @@ const btnAccount = document.getElementById("btnAccount");
 const btnAppearance = document.getElementById("btnAppearance");
 const btnNotification = document.getElementById("btnNotification");
 
+let currentPathAvatar = pathAvatar;
+
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme) {
   document.documentElement.setAttribute("data-theme", savedTheme);
@@ -30,7 +32,8 @@ function AccountDisplay(display) {
 
   const img = document.createElement("img");
   img.classList.add("imgAvatar");
-  img.src = pathAvatar;
+  const cacheBuster = new Date().getTime();
+  img.src = currentPathAvatar + "?t=" + cacheBuster;
 
   const bg = document.createElement("div");
   bg.classList.add("bgAvatar");
@@ -41,7 +44,7 @@ function AccountDisplay(display) {
 
   const fileInput = document.createElement("input");
   fileInput.type = "file";
-  fileInput.accept = "image/png";
+  fileInput.accept = "image/*";
   fileInput.style.display = "none";
 
   img.addEventListener("click", () => {
@@ -52,8 +55,8 @@ function AccountDisplay(display) {
     const file = fileInput.files[0];
     if (!file) return;
 
-    if (file.type !== "image/png") {
-      alert("Veuillez sélectionner une image au format .png");
+    if (!file.type.startsWith("image/")) {
+      alert("Veuillez sélectionner une image valide");
       return;
     }
 
@@ -66,15 +69,27 @@ function AccountDisplay(display) {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.newPath) {
-          img.src = data.newPath + "?t=" + Date.now();
+        if (data.success && data.newPath) {
+          const timestamp = data.timestamp || Date.now();
+
+          img.src = data.newPath + "?t=" + timestamp;
+
+          if (window.opener && !window.opener.closed) {
+            window.opener.location.reload();
+          }
+          
+          alert("Avatar mis à jour avec succès !");
+
+          setTimeout(() => {
+            window.location.href = "../../";
+          }, 1000);
         } else {
-          alert("Erreur update");
+          alert(data.error || "Erreur lors de la mise à jour");
         }
       })
       .catch((err) => {
         console.error(err);
-        alert("Error send file");
+        alert("Erreur lors de l'envoi du fichier");
       });
   });
 
