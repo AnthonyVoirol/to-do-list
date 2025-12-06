@@ -37,11 +37,10 @@ It’s a lightweight and easy-to-use web application for personal or professiona
    ```bash
    git clone https://github.com/AnthonyVoirol/taskly.git
    cd taskly
-## Installation
 
-- Create a database of your choice and import taskly.sql from the templateSQL folder.
-- Configure the database connection in your project (e.g., in `config.php`).  
-- Launch the project using any setup that can serve PHP (Apache, Nginx, XAMPP, MAMP, etc.).  
+2. Create a database of your choice and import taskly.sql from the templateSQL folder.
+3. Configure the database connection in your project (e.g., in `dbConfig.php`).  
+4. Launch the project using any setup that can serve PHP (Apache, Nginx, XAMPP, MAMP, etc.).  
 
 > The setup is flexible — you can choose any environment you prefer to run a PHP web application.
 
