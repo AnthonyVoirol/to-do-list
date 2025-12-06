@@ -59,7 +59,6 @@ $targetFile = $targetDir . $fileName;
 
 if (file_exists($targetFile)) {
     unlink($targetFile);
-    // Attendre un peu pour s'assurer que le fichier est bien supprimé
     clearstatcache(true, $targetFile);
 }
 
@@ -92,14 +91,12 @@ try {
     imagepng($sourceImage, $targetFile, 9);
     imagedestroy($sourceImage);
     
-    // Vider le cache pour ce fichier
     clearstatcache(true, $targetFile);
 
     $avatarPath = $username;
-    // Utiliser microtime pour un timestamp plus précis
+
     $timestamp = round(microtime(true) * 1000);
     
-    // Mettre à jour la base de données avec le timestamp
     $stmt = $conn->prepare("UPDATE users SET avatar_path = ?, avatar_timestamp = ? WHERE id = ?");
     $stmt->bind_param("sii", $avatarPath, $timestamp, $_SESSION['user_id']);
     $stmt->execute();

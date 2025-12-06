@@ -2,7 +2,6 @@
 session_start();
 require_once 'dbConfig.php';
 
-// Récupérer les infos de l'utilisateur avec le timestamp
 $stmt = $conn->prepare("SELECT username, avatar_path, avatar_timestamp FROM users WHERE id = ?");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();

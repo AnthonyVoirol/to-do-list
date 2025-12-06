@@ -32,7 +32,6 @@ function AccountDisplay(display) {
 
   const img = document.createElement("img");
   img.classList.add("imgAvatar");
-  // Forcer un nouveau chargement à chaque affichage
   const cacheBuster = new Date().getTime();
   img.src = currentPathAvatar + "?t=" + cacheBuster;
 
@@ -73,17 +72,14 @@ function AccountDisplay(display) {
         if (data.success && data.newPath) {
           const timestamp = data.timestamp || Date.now();
 
-          // Mettre à jour l'image actuelle dans les settings
           img.src = data.newPath + "?t=" + timestamp;
 
-          // Forcer le rechargement de l'image sur la page d'accueil
           if (window.opener && !window.opener.closed) {
             window.opener.location.reload();
           }
           
           alert("Avatar mis à jour avec succès !");
-          
-          // Rediriger après 1 seconde
+
           setTimeout(() => {
             window.location.href = "../../";
           }, 1000);

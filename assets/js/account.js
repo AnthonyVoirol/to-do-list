@@ -2,8 +2,7 @@ function OpenSettingAccount() {
   const avatarImg = document.getElementById("avatar");
   
   if (!avatarImg) return;
-  
-  // Vérifier si l'avatar a été mis à jour
+
   const avatarUpdated = sessionStorage.getItem("avatarUpdated");
   if (avatarUpdated) {
     const currentSrc = avatarImg.src.split("?")[0];
