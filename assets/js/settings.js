@@ -32,7 +32,9 @@ function AccountDisplay(display) {
 
   const img = document.createElement("img");
   img.classList.add("imgAvatar");
-  img.src = currentPathAvatar + "?t=" + Date.now();
+  // Forcer un nouveau chargement à chaque affichage
+  const cacheBuster = new Date().getTime();
+  img.src = currentPathAvatar + "?t=" + cacheBuster;
 
   const bg = document.createElement("div");
   bg.classList.add("bgAvatar");

@@ -1,7 +1,18 @@
 <?php
 session_start();
-$avatar = $_SESSION['avatar'] ?? "default";
-$username = $_SESSION['username'];
+require_once 'dbConfig.php';
+
+// Récupérer les infos de l'utilisateur avec le timestamp
+$stmt = $conn->prepare("SELECT username, avatar_path, avatar_timestamp FROM users WHERE id = ?");
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
+
+$avatar = $user['avatar_path'] ?? "default";
+$username = $user['username'];
+$avatarTimestamp = $user['avatar_timestamp'] ?? time();
 ?>
 
 <!DOCTYPE html>
@@ -32,8 +43,9 @@ $username = $_SESSION['username'];
     <script>
         const pathAvatar = "<?php echo '../avatars/' . $avatar . '.png'; ?>";
         const username = "<?php echo $username ?>"; 
+        const avatarTimestamp = "<?php echo $avatarTimestamp ?>"; 
     </script>
-    <script src="../js/settings.js?v=1.3"></script>
+    <script src="../js/settings.js?v=1.4"></script>
 </body>
 
 </html>
