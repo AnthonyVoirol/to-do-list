@@ -83,7 +83,7 @@ function message()
     <footer>
         <p>Fait par Ant.V</p>
     </footer>
-    <script src="assets/js/script.js?v=1.2"></script>
+    <script src="assets/js/script.js?v=1.3"></script>
     <script src="assets/js/account.js?v=1.2"></script>
     <?php message(); ?>
 </body>
