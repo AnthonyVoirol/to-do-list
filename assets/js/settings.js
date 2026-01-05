@@ -77,7 +77,7 @@ function AccountDisplay(display) {
           if (window.opener && !window.opener.closed) {
             window.opener.location.reload();
           }
-          
+
           alert("Avatar mis à jour avec succès !");
 
           setTimeout(() => {
@@ -143,8 +143,85 @@ function NotificationDisplay(display) {
 
   const p = document.createElement("p");
   p.innerText = "Bientôt disponible avec d'autres paramètres";
-  //settings notif
+
+  const statusText = document.createElement("p");
+  statusText.style.marginTop = "10px";
+  statusText.style.fontWeight = "bold";
+  statusText.innerText = "Loading...";
+
+  const btnContainer = document.createElement("div");
+  btnContainer.style.display = "flex";
+  btnContainer.style.gap = "10px";
+  btnContainer.style.marginTop = "20px";
+
+  const btnActiveNotif = document.createElement("button");
+  btnActiveNotif.innerText = "Activer notification";
+
+  const btnDesactiveNotif = document.createElement("button");
+  btnDesactiveNotif.innerText = "Désactiver notification";
+
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+
+    async function updateStatus() {
+      try {
+        const permission = await OneSignal.Notifications.permission;
+        const isPushEnabled = await OneSignal.User.PushSubscription.optedIn;
+        
+        if (permission && isPushEnabled) {
+          statusText.innerText = "Notifications activées";
+          statusText.style.color = "green";
+        } else if (permission === false) {
+          statusText.innerText = "Notifications désactivées ou bloquées";
+          statusText.style.color = "red";
+        } else {
+          statusText.innerText = "Notifications non configurées";
+          statusText.style.color = "orange";
+        }
+      } catch (error) {
+        statusText.innerText = "Verification error";
+        statusText.style.color = "gray";
+        console.error("Status check error:", error);
+      }
+    }
+
+    btnActiveNotif.addEventListener("click", async () => {
+      try {
+        const permission = await OneSignal.Notifications.permission;
+        
+        if (permission === false) {
+          await OneSignal.Slidedown.promptPush();
+        } else {
+          await OneSignal.User.PushSubscription.optIn();
+          alert("Notifications activées !");
+        }
+        
+        await updateStatus();
+      } catch (error) {
+        console.error("Activation error:", error);
+        alert("Erreur lors de l'activation des notifications");
+      }
+    });
+
+    btnDesactiveNotif.addEventListener("click", async () => {
+      try {
+        await OneSignal.User.PushSubscription.optOut();
+        alert("Notifications désactivées !");
+        await updateStatus();
+      } catch (error) {
+        console.error("Deactivation error:", error);
+        alert("Erreur lors de la désactivation des notifications");
+      }
+    });
+
+    await updateStatus();
+  });
+
+  btnContainer.appendChild(btnActiveNotif);
+  btnContainer.appendChild(btnDesactiveNotif);
 
   display.appendChild(h1);
   display.appendChild(p);
+  display.appendChild(statusText);
+  display.appendChild(btnContainer);
 }

@@ -9,12 +9,19 @@ if (savedTheme) {
 async function init() {
   tasks = await recupTasks();
   if (tasks) {
+    const savedSort = localStorage.getItem("taskSort") || "deadLine";
+    
+    sortSelect = document.getElementById("sortTasks");
+    sortSelect.value = savedSort;
+    
+    sortTasks(savedSort);
     showTask(tasks);
   }
 
   sortSelect = document.getElementById("sortTasks");
   sortSelect.addEventListener("change", () => {
     const sortBy = sortSelect.value;
+    localStorage.setItem("taskSort", sortBy);
     sortTasks(sortBy);
     showTask(tasks);
   });
@@ -115,6 +122,8 @@ function showTask(tasks) {
     }
 
     status.addEventListener("change", async () => {
+      task.isDone = status.checked;
+      
       article.classList.toggle("isDone", status.checked);
       if (status.checked) {
         divDone.appendChild(article);
@@ -520,9 +529,15 @@ function sortTasks(sortBy) {
   tasks.sort((a, b) => {
     switch (sortBy) {
       case "importance":
-        return importanceOrder[a.importance] - importanceOrder[b.importance];
+        const impDiff = importanceOrder[a.importance] - importanceOrder[b.importance];
+        if (impDiff !== 0) return impDiff;
+        return new Date(a.deadLine) - new Date(b.deadLine);
+        
       case "isSchool":
-        return b.isSchool - a.isSchool;
+        const schoolDiff = b.isSchool - a.isSchool;
+        if (schoolDiff !== 0) return schoolDiff;
+        return new Date(a.deadLine) - new Date(b.deadLine);
+        
       default:
         return new Date(a.deadLine) - new Date(b.deadLine);
     }

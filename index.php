@@ -20,14 +20,35 @@ function message()
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taskly</title>
     <link rel="stylesheet" href="assets/css/style.css?v=1.0">
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.init({
+                appId: "5bc6a16f-4a8c-444d-a5e1-88e03c418b5e",
+                safari_web_id: "web.onesignal.auto.1172fa5f-6e39-45ba-9a29-ceb4d8311220",
+                notifyButton: {
+                    enable: false
+                },
+                allowLocalhostAsSecureOrigin: true
+            });
+            
+            const userId = "<?php echo $_SESSION['user_id']; ?>";
+            await OneSignal.login(userId);
+            
+            const permission = await OneSignal.Notifications.permission;
+            
+            if (permission === false) {
+                await OneSignal.Slidedown.promptPush();
+            }
+        });
+    </script>
 </head>
-
 <body>
     <header>
         <h1>Taskly</h1>
@@ -46,7 +67,7 @@ function message()
         <div class="sort-container">
             <label for="sortTasks">Trier par :</label>
             <select id="sortTasks">
-                <option value="default">Par défaut</option>
+                <option value="deadLine">Date d'échéance</option>
                 <option value="importance">Importance</option>
                 <option value="isSchool">École</option>
             </select>
@@ -62,9 +83,8 @@ function message()
     <footer>
         <p>Fait par Ant.V</p>
     </footer>
-    <script src="assets/js/script.js?v=1.1"></script>
-    <script src="assets/js/account.js?v=1.1"></script>
+    <script src="assets/js/script.js?v=1.3"></script>
+    <script src="assets/js/account.js?v=1.2"></script>
     <?php message(); ?>
 </body>
-
 </html>

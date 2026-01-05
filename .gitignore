@@ -1,2 +1,4 @@
 assets/avatars/*
+assets/cron/sendDeadLineNotifs.php
+assets/cron/log.txt
 to-do.txt

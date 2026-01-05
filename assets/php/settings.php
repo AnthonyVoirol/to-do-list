@@ -1,17 +1,17 @@
 <?php
 session_start();
 require_once 'dbConfig.php';
+require_once 'auth.php';
 
-$stmt = $conn->prepare("SELECT username, avatar_path, avatar_timestamp FROM users WHERE id = ?");
-$stmt->bind_param("i", $_SESSION['user_id']);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-$stmt->close();
+getUserInfo($conn);
 
-$avatar = $user['avatar_path'] ?? "default";
-$username = $user['username'];
-$avatarTimestamp = $user['avatar_timestamp'] ?? time();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: signIn.php");
+    exit();
+}
+
+$avatar = $_SESSION['avatar'] ?? 'default';
+$username = $_SESSION['username'] ?? 'User';
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +22,21 @@ $avatarTimestamp = $user['avatar_timestamp'] ?? time();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compte</title>
     <link rel="stylesheet" href="../css/settings.css?v=1.2">
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.init({
+                appId: "5bc6a16f-4a8c-444d-a5e1-88e03c418b5e",
+                safari_web_id: "web.onesignal.auto.1172fa5f-6e39-45ba-9a29-ceb4d8311220",
+                notifyButton: {
+                    enable: false
+                },
+                allowLocalhostAsSecureOrigin: true
+            });
+            
+        });
+    </script>
 </head>
 
 <body>
@@ -42,9 +57,8 @@ $avatarTimestamp = $user['avatar_timestamp'] ?? time();
     <script>
         const pathAvatar = "<?php echo '../avatars/' . $avatar . '.png'; ?>";
         const username = "<?php echo $username ?>"; 
-        const avatarTimestamp = "<?php echo $avatarTimestamp ?>"; 
     </script>
-    <script src="../js/settings.js?v=1.4"></script>
+    <script src="../js/settings.js?v=2"></script>
 </body>
 
 </html>
