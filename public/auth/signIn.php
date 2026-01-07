@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($message === 'Login successful.') {
     $_SESSION['flash_message'] = 'Login successful!';
-    header('Location: ../../');
+    header('Location: ../../app/dashboard.php');
     exit;
   }
 }
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
+  <title>Connexion - Taskly</title>
   <link rel="stylesheet" href="../../assets/css/auth.css" />
 </head>
 
@@ -38,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <section class="sectionLogin">
     <form class="formLogin" action="signIn.php" method="POST">
       <h1>Welcome Back</h1>
+      <?php if (isset($message) && $message !== 'Login successful.'): ?>
+        <p style="color: red;"><?= htmlspecialchars($message) ?></p>
+      <?php endif; ?>
       <article class="input">
         <input type="email" name="email" placeholder="Email" required />
         <input type="password" name="password" placeholder="Password" required />
@@ -45,12 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <article class="checkboxArticle">
         <div class="checkbox">
           <input type="checkbox" name="rememberMe" />
-          <label>Remember me</label>
+          <label>Se souvenir de moi</label>
         </div>
-        <a href="#">Forgot password?</a>
+        <a href="#">Mot de passe oublié</a>
       </article>
-      <button type="submit">Login</button>
-      <a href="signUp.php" class="subtitle">Not have an account ?</a>
+      <button type="submit">Se connecter</button>
+      <a href="signUp.php" class="subtitle">Pas encore de compte ?</a>
     </form>
   </section>
 </body>

@@ -17,6 +17,6 @@ if (isset($_COOKIE['remember_me'])) {
 session_unset();
 session_destroy();
 
-header("Location: ../");
+header("Location: ../index.html");
 exit;
 ?>

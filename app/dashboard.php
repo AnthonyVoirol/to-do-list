@@ -1,12 +1,12 @@
 <?php
-require_once 'config/dbConfig.php';
+require_once __DIR__ . '/../config/dbConfig.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once 'src/services/auth.php';
+require_once __DIR__ . '/../src/services/auth.php';
 getUserInfo($conn);
 if (!isset($_SESSION['user_id'])) {
-    header("Location: public/auth/signIn.php");
+    header("Location: ../public/auth/signIn.php");
     exit();
 }
 function message()
@@ -23,8 +23,8 @@ function message()
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskly</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=1.0">
+    <title>Dashboard - Taskly</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=1.0">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -53,12 +53,12 @@ function message()
     <header>
         <h1>Taskly</h1>
         <div class="profile-container">
-            <img class="avatar" id="avatar" src="<?php echo 'assets/avatars/' . $_SESSION['avatar'] . '.png'; ?>"
+            <img class="avatar" id="avatar" src="<?php echo '../assets/avatars/' . $_SESSION['avatar'] . '.png'; ?>"
                 alt="avatar">
             <div class="profile-menu" id="profileMenu">
                 <ul>
-                    <li><a href="public/settings.php">Paramètres</a></li>
-                    <li><a href="public/logout.php">Déconnexion</a></li>
+                    <li><a href="../public/settings.php">Paramètres</a></li>
+                    <li><a href="../public/logout.php">Déconnexion</a></li>
                 </ul>
             </div>
         </div>
@@ -83,8 +83,8 @@ function message()
     <footer>
         <p>Fait par Ant.V</p>
     </footer>
-    <script src="assets/js/script.js?v=1.3"></script>
-    <script src="assets/js/account.js?v=1.2"></script>
+    <script src="../assets/js/script.js?v=1.3"></script>
+    <script src="../assets/js/account.js?v=1.2"></script>
     <?php message(); ?>
 </body>
 </html>

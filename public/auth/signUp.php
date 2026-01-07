@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($message === 'Registration successful.') {
     $_SESSION['flash_message'] = 'Registration successful!';
-    header('Location: ../../');
+    header('Location: ../../app/dashboard.php');
     exit;
   }
 }
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign up</title>
+  <title>S'inscrire - Taskly</title>
   <link rel="stylesheet" href="../../assets/css/auth.css" />
 </head>
 
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <section class="sectionLogin">
     <form class="formLogin" action="signUp.php" method="POST">
       <h1>Welcome</h1>
-      <?php if (isset($message)): ?>
+      <?php if (isset($message) && $message !== 'Registration successful.'): ?>
         <p style="color: red;"><?= htmlspecialchars($message) ?></p>
       <?php endif; ?>
       <article class="input">
@@ -48,11 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <article class="checkboxArticle">
         <div class="checkbox">
           <input type="checkbox" name="rememberMe" />
-          <label>Remember me</label>
+          <label>Se souvenir de moi</label>
         </div>
       </article>
-      <button type="submit">Register</button>
-      <a href="signIn.php" class="subtitle">Already have an account ?</a>
+      <button type="submit">S'inscrire</button>
+      <a href="signIn.php" class="subtitle">J'ai déjà un compte</a>
     </form>
   </section>
 </body>

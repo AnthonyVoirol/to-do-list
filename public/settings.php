@@ -20,7 +20,7 @@ $username = $_SESSION['username'] ?? 'User';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte</title>
+    <title>Paramètres - Taskly</title>
     <link rel="stylesheet" href="../assets/css/settings.css?v=1.2">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
@@ -39,7 +39,7 @@ $username = $_SESSION['username'] ?? 'User';
 </head>
 
 <body>
-    <a href="../">retour</a>
+    <a href="../app/dashboard.php">← Retour</a>
     <div class="main">
         <section class="settings">
             <h1>Paramètres</h1>
