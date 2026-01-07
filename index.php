@@ -1,12 +1,12 @@
 <?php
-require_once 'assets/php/dbConfig.php';
+require_once 'config/dbConfig.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once 'assets/php/auth.php';
+require_once 'src/services/auth.php';
 getUserInfo($conn);
 if (!isset($_SESSION['user_id'])) {
-    header("Location: assets/php/signIn.php");
+    header("Location: public/auth/signIn.php");
     exit();
 }
 function message()
@@ -57,8 +57,8 @@ function message()
                 alt="avatar">
             <div class="profile-menu" id="profileMenu">
                 <ul>
-                    <li><a href="assets/php/settings.php">Paramètres</a></li>
-                    <li><a href="assets/php/logout.php">Déconnexion</a></li>
+                    <li><a href="public/settings.php">Paramètres</a></li>
+                    <li><a href="public/logout.php">Déconnexion</a></li>
                 </ul>
             </div>
         </div>

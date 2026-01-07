@@ -1,5 +1,5 @@
 <?php
-require_once 'dbConfig.php';
+require_once __DIR__ . '/../config/dbConfig.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -17,6 +17,6 @@ if (isset($_COOKIE['remember_me'])) {
 session_unset();
 session_destroy();
 
-header("Location: ../../");
+header("Location: ../");
 exit;
 ?>

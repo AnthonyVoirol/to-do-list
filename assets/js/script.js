@@ -38,7 +38,7 @@ init();
 
 async function recupTasks() {
   try {
-    const response = await fetch("assets/php/API.php", {
+    const response = await fetch("api/tasks.php", {
       method: "GET",
       credentials: "include",
     });
@@ -132,7 +132,7 @@ function showTask(tasks) {
       }
 
       try {
-        const response = await fetch("assets/php/API.php", {
+        const response = await fetch("api/tasks.php", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: task.id, isDone: status.checked }),
@@ -247,7 +247,7 @@ async function addTask() {
 
 async function sendTaskData(taskData) {
   try {
-    const response = await fetch("assets/php/API.php", {
+    const response = await fetch("api/tasks.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -409,7 +409,7 @@ function renderTaskArticle(task, article) {
   status.checked = task.isDone;
   status.addEventListener("change", async () => {
     try {
-      const response = await fetch("assets/php/API.php", {
+      const response = await fetch("api/tasks.php", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: task.id, isDone: status.checked }),
@@ -440,7 +440,7 @@ function renderTaskArticle(task, article) {
 
 async function updateTaskData(taskData) {
   try {
-    const response = await fetch("assets/php/API.php", {
+    const response = await fetch("api/tasks.php", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(taskData),
@@ -465,7 +465,7 @@ async function updateTaskData(taskData) {
 async function deleteTask(task) {
   const taskData = { id: task.id };
   try {
-    const response = await fetch("assets/php/API.php", {
+    const response = await fetch("api/tasks.php", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(taskData),

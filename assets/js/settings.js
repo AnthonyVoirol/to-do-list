@@ -22,7 +22,7 @@ function showView(viewFunction) {
 }
 
 function AccountDisplay(display) {
-  pathOverlay = "../img/overlayAvatar.png";
+  pathOverlay = "../assets/img/overlayAvatar.png";
 
   const h1 = document.createElement("h1");
   h1.innerText = "Mon compte";
@@ -63,7 +63,7 @@ function AccountDisplay(display) {
     const formData = new FormData();
     formData.append("avatar", file);
 
-    fetch("avatar.php", {
+    fetch("../src/services/avatar.php", {
       method: "POST",
       body: formData,
     })
@@ -81,7 +81,7 @@ function AccountDisplay(display) {
           alert("Avatar mis à jour avec succès !");
 
           setTimeout(() => {
-            window.location.href = "../../";
+            window.location.href = "../";
           }, 1000);
         } else {
           alert(data.error || "Erreur lors de la mise à jour");

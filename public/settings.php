@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once 'dbConfig.php';
-require_once 'auth.php';
+require_once __DIR__ . '/../config/dbConfig.php';
+require_once __DIR__ . '/../src/services/auth.php';
 
 getUserInfo($conn);
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: signIn.php");
+    header("Location: auth/signIn.php");
     exit();
 }
 
@@ -21,7 +21,7 @@ $username = $_SESSION['username'] ?? 'User';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compte</title>
-    <link rel="stylesheet" href="../css/settings.css?v=1.2">
+    <link rel="stylesheet" href="../assets/css/settings.css?v=1.2">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -34,13 +34,12 @@ $username = $_SESSION['username'] ?? 'User';
                 },
                 allowLocalhostAsSecureOrigin: true
             });
-            
         });
     </script>
 </head>
 
 <body>
-    <a href="../../">retour</a>
+    <a href="../">retour</a>
     <div class="main">
         <section class="settings">
             <h1>Paramètres</h1>
@@ -55,10 +54,10 @@ $username = $_SESSION['username'] ?? 'User';
         </section>
     </div>
     <script>
-        const pathAvatar = "<?php echo '../avatars/' . $avatar . '.png'; ?>";
+        const pathAvatar = "<?php echo '../assets/avatars/' . $avatar . '.png'; ?>";
         const username = "<?php echo $username ?>"; 
     </script>
-    <script src="../js/settings.js?v=2"></script>
+    <script src="../assets/js/settings.js?v=2"></script>
 </body>
 
 </html>

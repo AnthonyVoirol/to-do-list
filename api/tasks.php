@@ -1,5 +1,5 @@
 <?php
-require_once 'dbConfig.php';
+require_once __DIR__ . '/../config/dbConfig.php';
 
 header('Content-Type: application/json');
 session_start();
