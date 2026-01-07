@@ -37,13 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <section class="sectionLogin">
     <form class="formLogin" action="signIn.php" method="POST">
-      <h1>Welcome Back</h1>
+      <h1>Content de vous revoir</h1>
       <?php if (isset($message) && $message !== 'Login successful.'): ?>
         <p style="color: red;"><?= htmlspecialchars($message) ?></p>
       <?php endif; ?>
       <article class="input">
         <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
+        <input type="password" name="password" placeholder="Mot de passe" required />
       </article>
       <article class="checkboxArticle">
         <div class="checkbox">

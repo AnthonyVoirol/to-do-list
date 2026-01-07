@@ -36,14 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <section class="sectionLogin">
     <form class="formLogin" action="signUp.php" method="POST">
-      <h1>Welcome</h1>
+      <h1>Bienvenue</h1>
       <?php if (isset($message) && $message !== 'Registration successful.'): ?>
         <p style="color: red;"><?= htmlspecialchars($message) ?></p>
       <?php endif; ?>
       <article class="input">
-        <input type="username" name="username" placeholder="Username" required />
+        <input type="username" name="username" placeholder="Nom d'utilisateur" required />
         <input type="text" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
+        <input type="password" name="password" placeholder="Mot de passe" required />
       </article>
       <article class="checkboxArticle">
         <div class="checkbox">
