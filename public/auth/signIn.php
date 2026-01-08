@@ -33,6 +33,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Connexion - Taskly</title>
   <link rel="stylesheet" href="../../assets/css/auth.css" />
   <link rel="icon" type="image/png" href="../../assets/img/flavicon.png">
+  <meta name="description"
+    content="Connectez-vous à votre compte Taskly pour accéder à vos tâches et projets. Gérez votre productivité en toute simplicité.">
+
+  <meta property="og:title" content="Connexion - Taskly">
+  <meta property="og:description" content="Connectez-vous à votre compte Taskly pour gérer vos tâches quotidiennes.">
+  <meta property="og:image" content="https://taskly.voirol.tech.com/assets/img/taskly-preview.jpg">
+  <meta property="og:url" content="https://taskly.voirol.tech.com/public/auth/signIn.php">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Connexion - Taskly">
+  <meta name="twitter:description" content="Accédez à votre gestionnaire de tâches personnel">
+  <meta name="twitter:image" content="https://taskly.voirol.tech.com/assets/img/taskly-preview.jpg">
+
+  <link rel="canonical" href="https://taskly.voirol.tech.com/public/auth/signIn.php">
+
+  <meta name="robots" content="noindex, nofollow">
 </head>
 
 <body>

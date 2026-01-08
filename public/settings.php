@@ -21,8 +21,16 @@ $username = $_SESSION['username'] ?? 'User';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paramètres - Taskly</title>
-    <link rel="stylesheet" href="../assets/css/settings.css?v=1.2">
+
     <link rel="icon" type="image/png" href="../assets/img/flavicon.png">
+    <meta name="description"
+        content="Gérez vos paramètres Taskly : avatar, notifications, apparence et préférences personnelles.">
+
+    <link rel="canonical" href="https://taskly.voirol.tech.com/public/settings.php">
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="stylesheet" href="../assets/css/settings.css?v=1.2">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
