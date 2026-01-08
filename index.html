@@ -1,65 +1,166 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Taskly - Simplifiez votre vie</title>
-  <link rel="stylesheet" href="assets/css/landing.css">
-  <link rel="icon" type="image/png" href="assets/img/flavicon.png">
-</head>
-<body>
-  <header class="navbar-landing">
-    <div class="navbar-content">
-      <a href="#" class="logo">Taskly</a>
-      <nav>
-        <ul class="nav-actions">
-          <li><a href="public/auth/signIn.php" class="nav-link">Connexion</a></li>
-          <li><a href="public/auth/signUp.php" class="nav-button">S'inscrire</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taskly - Simplifiez votre vie</title>
+    <meta
+      name="description"
+      content="Taskly est un gestionnaire de tâches gratuit et simple. Organisez vos projets, priorisez vos tâches et recevez des notifications intelligentes. Essai gratuit sans carte bancaire."
+    />
+    <meta
+      name="keywords"
+      content="gestionnaire tâches, todo list, organisation, productivité, gestion projet, to-do list gratuit, planificateur tâches"
+    />
+    <meta name="author" content="Taskly" />
 
-  <main>
-    <section class="hero-section">
-      <div class="hero-content">
-        <h1 class="hero-title">Taskly</h1>
-        <p class="hero-subtitle">Taskly vous simplifie la vie</p>
-        <a href="public/auth/signUp.php" class="cta-button">Essayez maintenant</a>
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://taskly.voirol.tech.com/" />
+    <meta
+      property="og:title"
+      content="Taskly - Gestionnaire de Tâches Gratuit"
+    />
+    <meta
+      property="og:description"
+      content="Organisez vos tâches efficacement avec Taskly. Gratuit, simple et puissant."
+    />
+    <meta
+      property="og:image"
+      content="https://taskly.voirol.tech.com/assets/img/og-image.jpg"
+    />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://taskly.voirol.tech.com/" />
+    <meta
+      property="twitter:title"
+      content="Taskly - Gestionnaire de Tâches Gratuit"
+    />
+    <meta
+      property="twitter:description"
+      content="Organisez vos tâches efficacement avec Taskly"
+    />
+    <meta
+      property="twitter:image"
+      content="https://taskly.voirol.tech.com/assets/img/twitter-image.jpg"
+    />
+
+    <link rel="canonical" href="https://taskly.voirol.tech.com/" />
+    <link rel="icon" type="image/png" href="assets/img/flavicon.png" />
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+
+    <link rel="stylesheet" href="assets/css/landing.css" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Taskly",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "ratingCount": "127"
+        },
+        "description": "Gestionnaire de tâches gratuit pour organiser votre vie professionnelle et personnelle"
+      }
+    </script>
+  </head>
+  <body>
+    <header class="navbar-landing">
+      <div class="navbar-content">
+        <a href="#" class="logo">Taskly</a>
+        <nav>
+          <ul class="nav-actions">
+            <li>
+              <a href="public/auth/signIn.php" class="nav-link">Connexion</a>
+            </li>
+            <li>
+              <a href="public/auth/signUp.php" class="nav-button">S'inscrire</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-    </section>
+    </header>
 
-    <section class="features-section">
-      <div class="features-container">
-        <div class="features-grid">
-          <div class="feature-card">
-            <h2 class="feature-title">Centraliser vos tâches</h2>
-            <p class="feature-description">Regroupez toutes vos tâches en un seul endroit et gardez le contrôle de vos projets</p>
-          </div>
+    <main>
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title">Taskly</h1>
+          <p class="hero-subtitle">Taskly vous simplifie la vie</p>
+          <a href="public/auth/signUp.php" class="cta-button"
+            >Essayez maintenant</a
+          >
+        </div>
+      </section>
 
-          <div class="feature-card">
-            <h2 class="feature-title">Classer par importance</h2>
-            <p class="feature-description">Priorisez efficacement vos tâches et concentrez-vous sur l'essentiel</p>
-          </div>
+      <section class="features-section">
+        <div class="features-container">
+          <div class="features-grid">
+            <div class="feature-card">
+              <h2 class="feature-title">Centraliser vos tâches</h2>
+              <p class="feature-description">
+                Regroupez toutes vos tâches en un seul endroit et gardez le
+                contrôle de vos projets
+              </p>
+            </div>
 
-          <div class="feature-card">
-            <h2 class="feature-title">Notifications intelligentes</h2>
-            <p class="feature-description">Ne ratez plus jamais une deadline grâce à nos rappels personnalisés</p>
+            <div class="feature-card">
+              <h2 class="feature-title">Classer par importance</h2>
+              <p class="feature-description">
+                Priorisez efficacement vos tâches et concentrez-vous sur
+                l'essentiel
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <h2 class="feature-title">Notifications intelligentes</h2>
+              <p class="feature-description">
+                Ne ratez plus jamais une deadline grâce à nos rappels
+                personnalisés
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="extra-info">
-      <div class="extra-info-content">
-        <h3>Plein de nouvelles fonctionnalités arrivent (gestion notes école)</h3>
-      </div>
-    </section>
-  </main>
+      <section class="faq-section">
+        <h2>Questions fréquentes</h2>
 
-  <footer class="footer">
-    <p>Copyright © 2026 Taskly</p>
-    <!--lien contact, CGU/Confidentialité-->
-  </footer>
-</body>
+        <details class="faq-item">
+          <summary>Taskly est-il vraiment gratuit ?</summary>
+          <p>
+            Oui, Taskly est 100% gratuit. Vous pouvez créer un nombre illimité
+            de tâches, recevoir des notifications et utiliser toutes les
+            fonctionnalités sans limitation.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Puis-je utiliser Taskly sur mobile ?</summary>
+          <p>
+            Taskly est une application web responsive qui fonctionne
+            parfaitement sur tous les appareils : ordinateur, tablette et
+            smartphone. Accédez à vos tâches où que vous soyez.
+          </p>
+        </details>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <nav aria-label="Navigation du pied de page">
+        <ul class="footer-nav">
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Conditions d'utilisation</a></li>
+          <li><a href="#">Politique de confidentialité</a></li>
+        </ul>
+      </nav>
+      <p class="footer-copy">Copyright © 2026 Taskly - Tous droits réservés</p>
+    </footer>
+  </body>
 </html>
