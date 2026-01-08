@@ -25,7 +25,7 @@ function message()
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Taskly</title>
-    <link rel="icon" type="image/png" href="../assets/img/flavicon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta name="description"
         content="Votre tableau de bord Taskly. Gérez toutes vos tâches, suivez vos projets et restez productif.">
 
@@ -36,7 +36,7 @@ function message()
 
     <link rel="canonical" href="https://taskly.voirol.tech.com/app/dashboard.php">
 
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="../assets/css/style.css?v=1.0">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>

@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>S'inscrire - Taskly</title>
-  <link rel="icon" type="image/png" href="../../assets/img/flavicon.png">
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
   <meta name="description"
     content="Créez votre compte Taskly gratuit en 30 secondes. Aucune carte bancaire requise. Commencez à organiser vos tâches dès maintenant.">
 

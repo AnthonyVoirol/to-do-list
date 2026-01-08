@@ -22,7 +22,7 @@ $username = $_SESSION['username'] ?? 'User';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paramètres - Taskly</title>
 
-    <link rel="icon" type="image/png" href="../assets/img/flavicon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta name="description"
         content="Gérez vos paramètres Taskly : avatar, notifications, apparence et préférences personnelles.">
 

@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connexion - Taskly</title>
   <link rel="stylesheet" href="../../assets/css/auth.css" />
-  <link rel="icon" type="image/png" href="../../assets/img/flavicon.png">
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
   <meta name="description"
     content="Connectez-vous à votre compte Taskly pour accéder à vos tâches et projets. Gérez votre productivité en toute simplicité.">
 
