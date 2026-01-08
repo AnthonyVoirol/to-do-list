@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'dbConfig.php';
+require_once __DIR__ . '/../../config/dbConfig.php';
 
 header("Content-Type: application/json");
 
@@ -48,7 +48,7 @@ if (!$user) {
 }
 
 $username = $user['username'];
-$targetDir = "../avatars/";
+$targetDir = __DIR__ . "/../../assets/avatars/";
 
 if (!is_dir($targetDir)) {
     mkdir($targetDir, 0777, true);
@@ -94,7 +94,6 @@ try {
     clearstatcache(true, $targetFile);
 
     $avatarPath = $username;
-
     $timestamp = round(microtime(true) * 1000);
     
     $stmt = $conn->prepare("UPDATE users SET avatar_path = ?, avatar_timestamp = ? WHERE id = ?");
@@ -107,7 +106,7 @@ try {
     
     echo json_encode([
         "success" => true,
-        "newPath" => "../avatars/" . $fileName,
+        "newPath" => "../../assets/avatars/" . $fileName,
         "timestamp" => $timestamp
     ]);
 

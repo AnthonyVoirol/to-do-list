@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../php/dbConfig.php';
+require_once __DIR__ . '/../config/dbConfig.php';
 
 $APP_ID = "";
 $REST_API_KEY = "";

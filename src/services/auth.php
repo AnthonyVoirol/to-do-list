@@ -30,7 +30,6 @@ function register_user(mysqli $conn, string $username, string $email, string $pa
 
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-
     $stmt = $conn->prepare('INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)');
     $stmt->bind_param('sss', $username, $email, $passwordHash);
     $stmt->execute();
@@ -50,7 +49,6 @@ function register_user(mysqli $conn, string $username, string $email, string $pa
         $stmt->close();
 
         setcookie("remember_me", $token, time() + (86400 * 30), "/", "", true, true);
-
     }
 
     return 'Registration successful.';
@@ -95,11 +93,9 @@ function login_user(mysqli $conn, string $email, string $password, bool $remembe
     return 'Login successful.';
 }
 
-
 function getUserInfo(mysqli $conn)
 {
     if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
-
         $token = $_COOKIE['remember_me'];
 
         $stmt = $conn->prepare("SELECT user_id, expires_at FROM user_tokens WHERE token = ?");
@@ -137,8 +133,12 @@ function getUserInfo(mysqli $conn)
     if (!empty($user['avatar_path'])) {
         $_SESSION['avatar'] = $user['avatar_path'];
     } else {
-        $_SESSION['avatar'] = $user['username'];
+        $_SESSION['avatar'] = 'default';
+    }
+
+    $avatarPath = __DIR__ . '/../../assets/avatars/' . $_SESSION['avatar'] . '.png';
+    if (!file_exists($avatarPath) || $_SESSION['avatar'] === 'default') {
+        $_SESSION['avatar'] = 'avatars_default';
     }
 }
-
 ?>

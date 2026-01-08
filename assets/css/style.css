@@ -279,20 +279,22 @@ button svg {
   line-height: 1;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   z-index: 50;
   margin-bottom: 50px;
   padding-bottom: 5px;
 }
 
 #addTask:hover {
-  transform: scale(1.05);
+  transform: scale(1.1) rotate(90deg);
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
   background: var(--accent-hover);
+  transform-origin: center center;
 }
 
 #addTask:active {
-  transform: scale(0.95);
+  transform: scale(0.95) rotate(90deg);
+  transform-origin: center center;
 }
 
 footer {
